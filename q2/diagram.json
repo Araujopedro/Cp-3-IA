@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "author": "Dhika",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -147.2,
+      "left": 5.6,
+      "attrs": { "pins": "i2c" }
+    },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": -104.1, "left": -215.3, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "lcd1:SDA", "esp:D21", "green", [ "h-28.8", "v86.6", "h163.2", "v67.2" ] ],
+    [ "lcd1:SCL", "esp:D22", "green", [ "h-19.2", "v86.7", "h144", "v19.2" ] ],
+    [ "lcd1:VCC", "esp:VIN", "red", [ "h-38.4", "v38.5" ] ],
+    [ "lcd1:GND", "esp:GND.2", "black", [ "h-48", "v28.8" ] ],
+    [ "ultrasonic1:VCC", "esp:VIN", "red", [ "v0" ] ],
+    [ "esp:GND.2", "ultrasonic1:GND", "black", [ "h0" ] ],
+    [ "ultrasonic1:ECHO", "esp:D26", "green", [ "v0" ] ],
+    [ "esp:D25", "ultrasonic1:TRIG", "green", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
