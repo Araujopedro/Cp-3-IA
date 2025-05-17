@@ -1,79 +1,51 @@
-# Projeto IoT com ESP32 e MQTT Simulado no Wokwi
+## Questão 3 – Supervisão e Automação com Atuadores Inteligentes
 
-## Descrição
+### Objetivo do Desafio
 
-Este projeto demonstra como configurar um ESP32 para conectar-se a uma rede Wi-Fi e enviar e receber dados via MQTT. A simulação é realizada no [Wokwi](https://wokwi.com/), um simulador online de hardware. O desenvolvimento é feito utilizando o Visual Studio Code com a extensão PlatformIO.
+Transformar um código de demonstração de atuadores em um sistema inteligente controlado remotamente por mensagens MQTT. O objetivo é permitir que um painel supervisório (como o Node-RED) envie comandos para o ESP32, ativando ou desativando os atuadores de forma individual ou em conjunto, como se fosse um painel de controle remoto via nuvem.
 
-## Adaptação
+### O que já está pronto
 
-Esse repositório é uma adaptação deste tutorial.[https://docs.google.com/document/d/1y6IfbOT_rAimZx41tNBL9NlscoB1ObjgaPmy2g4UGO0/edit?usp=sharing](https://docs.google.com/document/d/1y6IfbOT_rAimZx41tNBL9NlscoB1ObjgaPmy2g4UGO0/edit?usp=sharing) 
+Um código funcional que:
 
+- Aciona um buzzer com frequência de 1 kHz.
 
-## Funcionalidades
+- Liga/desliga uma luz comum (LED simples).
 
-- **Conexão Wi-Fi**: O ESP32 conecta-se automaticamente à rede Wi-Fi especificada.
-- **Comunicação MQTT**: Envia e recebe mensagens através de um broker MQTT.
-- **Simulação no Wokwi**: Permite testar o projeto sem a necessidade de hardware físico.
+- Realiza um ciclo de cores no LED RGB (vermelho, verde, azul).
 
-## Pré-requisitos
+- Move um servo motor entre as posições 0°, 90° e 180°.
 
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [PlatformIO IDE](https://platformio.org/install/ide?install=vscode)
-- Conta no [Wokwi](https://wokwi.com/)
-- Broker MQTT (como o [Mosquitto](https://mosquitto.org/) ou serviços online como o [HiveMQ](https://www.hivemq.com/))
+`Esse código é uma demo local automática e não possui conectividade. Sua missão é transformar isso em um dispositivo IoT de verdade!`
 
-## Instalação
+### Sua Tarefa
 
-1. **Clone o repositório:**
+Modificar o código para torná-lo conectado com MQTT, seguindo o modelo da Questão 1:
 
-   ```bash
-   git clone https://github.com/arnaldojr/iot-esp32-wokwi-vscode.git
-   ```
+- Conecte o ESP32 ao Wi-Fi.
+- Configure um broker MQTT.
 
-2. Abra o projeto no VSCode:
+Inscreva-se em tópicos para receber comandos de controle dos atuadores:
 
-    Abra o Visual Studio Code e navegue até a pasta do projeto clonado.
+- Crie tópicos padronizados, únicos e personalizados para cada comando 
+- Interpretar mensagens em JSON para ativar ou desativar cada atuador individualmente. 
 
-3. Instale as dependências:
+Criar um painel no Node-RED que permita:
 
-    O PlatformIO irá instalar automaticamente as bibliotecas necessárias durante a primeira compilação.
+- Enviar comandos para os atuadores via botões, sliders ou dropdowns.
+- Visualizar em tempo real quais atuadores estão ativos.
 
-## Configuração
+- (Opcional) Criar automações simples, como "ligar o buzzer se o LED RGB estiver vermelho".
 
-Credenciais Wi-Fi e MQTT:
+### Dicas
 
-No arquivo src/main.cpp, insira suas credenciais de Wi-Fi e as informações do broker MQTT:
+- Reutilize o código MQTT da Questão 1 como base.
+- Dimensione corretamente o StaticJsonDocument para processar comandos JSON recebidos.
 
+- Para representar cores, crie uma função como:
 ```cpp
-
-// Configurações de WiFi
-const char *SSID = "Wokwi-GUEST"; // não precisa alterar no simulador
-const char *PASSWORD = "";        // 
-
-// Configurações de MQTT
-const char *BROKER_MQTT = "broker.hivemq.com"; // seu broker mqtt
-const int BROKER_PORT = 1883;
-const char *ID_MQTT = "esp32_mqtt";
-const char *TOPIC_SUBSCRIBE_LED = "fiap/iot/led";  // seu topico SUB
-const char *TOPIC_PUBLISH_TEMP_HUMI = "fiap/iot/temphumi"; // seu tópico PUB
+void setRGB(String cor);
 ```
 
-## Uso
+- Você pode deixar os atuadores desligados até que um comando MQTT seja recebido.
 
-1. Compilar o projeto:
-
-No PlatformIO, clique em Build para compilar o código.
-
-2. Iniciar a simulação:
-
-- No Wokwi, inicie a simulação.
-- Observe a saída serial para verificar a conexão Wi-Fi e a comunicação MQTT.
-
-3. Testar a comunicação MQTT:
-
-- Use um cliente MQTT (como o node-red) para publicar e subscrever tópicos para interagir com o ESP32.
-
-4. Simulação Dicas:
-
-- O Wokwi permite simular o comportamento do ESP32 em tempo real, mas preste atenção no tempo de execução que pode variar e ficar lento:
-- Utilize o monitor serial para acompanhar os logs da aplicação.
